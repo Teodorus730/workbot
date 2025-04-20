@@ -14,7 +14,7 @@ from keyboards.admin_keyboards import make_builder
 admins_router = Router()
 
 
-@admins_router.message(IsType(load_users()["admins"]), Command("list_users"))
+@admins_router.message(IsType("admins"), Command("list_users"))
 async def list_users(msg: Message):
     users = load_users()
     text = ""
@@ -25,7 +25,7 @@ async def list_users(msg: Message):
     await msg.answer(text)
 
 
-@admins_router.message(IsType(load_users()["admins"]), Command("add_admin"))
+@admins_router.message(IsType("admins"), Command("add_admin"))
 async def add_admin1(msg: Message, state: FSMContext):
     if load_users()["recruts"]:
         await msg.answer("Выбери ник нового админа", reply_markup=make_builder("recruts").as_markup(
@@ -37,7 +37,7 @@ async def add_admin1(msg: Message, state: FSMContext):
     await msg.answer("Нет людей для этой работы")
 
 
-@admins_router.message(IsType(load_users()["admins"]), StateFilter(AdminSates.admin_add_state))
+@admins_router.message(IsType("admins"), StateFilter(AdminSates.admin_add_state))
 async def add_admin2(msg: Message, state: FSMContext):
     await state.clear()
     
@@ -52,7 +52,7 @@ async def add_admin2(msg: Message, state: FSMContext):
         await msg.answer(f"Пользователь {username} уже является админом.")
         
         
-@admins_router.message(IsType(load_users()["admins"]), Command("del_admin"))
+@admins_router.message(IsType("admins"), Command("del_admin"))
 async def del_admin1(msg: Message, state: FSMContext):
     await msg.answer("Выбери ник админа", reply_markup=make_builder("admins").as_markup(
         resize_keyboard=True,
@@ -61,7 +61,7 @@ async def del_admin1(msg: Message, state: FSMContext):
     return await state.set_state(AdminSates.admin_del_state)
     
 
-@admins_router.message(IsType(load_users()["admins"]), StateFilter(AdminSates.admin_del_state))
+@admins_router.message(IsType("admins"), StateFilter(AdminSates.admin_del_state))
 async def del_admin2(msg: Message, state: FSMContext):
     await state.clear()
     
@@ -79,7 +79,7 @@ async def del_admin2(msg: Message, state: FSMContext):
         await msg.answer(f"Пользователь {username} не найден.")
         
 
-@admins_router.message(IsType(load_users()["admins"]), Command("add_worker"))
+@admins_router.message(IsType("admins"), Command("add_worker"))
 async def add_worker1(msg: Message, state: FSMContext):
     if load_users()["recruts"]:
         await msg.answer("Выбери ник нового работника", reply_markup=make_builder("recruts").as_markup(
@@ -91,7 +91,7 @@ async def add_worker1(msg: Message, state: FSMContext):
     await msg.answer("Нет людей для этой работы")
 
 
-@admins_router.message(IsType(load_users()["admins"]), StateFilter(AdminSates.worker_add_state))
+@admins_router.message(IsType("admins"), StateFilter(AdminSates.worker_add_state))
 async def add_worker2(msg: Message, state: FSMContext):
     await state.clear()
     
@@ -106,7 +106,7 @@ async def add_worker2(msg: Message, state: FSMContext):
         await msg.answer(f"Пользователь {username} уже является работником.")
         
         
-@admins_router.message(IsType(load_users()["admins"]), Command("del_worker"))
+@admins_router.message(IsType("admins"), Command("del_worker"))
 async def del_worker1(msg: Message, state: FSMContext):
     await msg.answer("Выбери ник работника", reply_markup=make_builder("workers").as_markup(
         resize_keyboard=True,
@@ -115,7 +115,7 @@ async def del_worker1(msg: Message, state: FSMContext):
     return await state.set_state(AdminSates.worker_del_state)
     
 
-@admins_router.message(IsType(load_users()["admins"]), StateFilter(AdminSates.worker_del_state))
+@admins_router.message(IsType("admins"), StateFilter(AdminSates.worker_del_state))
 async def del_worker2(msg: Message, state: FSMContext):
     await state.clear()
     
@@ -133,7 +133,7 @@ async def del_worker2(msg: Message, state: FSMContext):
         await msg.answer(f"Пользователь {username} не найден.")
         
         
-@admins_router.message(IsType(load_users()["admins"]), Command("del_recrut"))
+@admins_router.message(IsType("admins"), Command("del_recrut"))
 async def del_recrut1(msg: Message, state: FSMContext):
     await msg.answer("Выбери ник рекрута", reply_markup=make_builder("recruts").as_markup(
         resize_keyboard=True,
@@ -142,7 +142,7 @@ async def del_recrut1(msg: Message, state: FSMContext):
     return await state.set_state(AdminSates.recrut_del_state)
     
 
-@admins_router.message(IsType(load_users()["admins"]), StateFilter(AdminSates.recrut_del_state))
+@admins_router.message(IsType("admins"), StateFilter(AdminSates.recrut_del_state))
 async def del_recrut2(msg: Message, state: FSMContext):
     await state.clear()
     
